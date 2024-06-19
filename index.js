@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 const connectDB = require("./config/db");
 const passport = require("./config/passport");
 const authRoutes = require("./routes/auth");
@@ -11,12 +13,26 @@ const fileRoutes = require("./routes/file");
 
 const app = express();
 
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Your API Documentation",
+      version: "1.0.0",
+      description: "Documentation for your API endpoints",
+    },
+  },
+  apis: ["./routes/*.js"], // Path to your API routes directory
+};
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(express.static(path.resolve(__dirname, "client/build")));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use("/api/auth", authRoutes);

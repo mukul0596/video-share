@@ -9,6 +9,17 @@ const uploadFile = async (req, res) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
+    const fileSize = req.file.size;
+
+    if (fileSize > req.user.sizeLimit - req.user.totalStorageUsed) {
+      return res
+        .status(400)
+        .json({ message: "File size exceeds available storage limit" });
+    }
+
+    req.user.totalStorageUsed += fileSize;
+    await req.user.save();
+
     const newFile = new File({
       filename: req.file.filename,
       originalName: req.file.originalname,
