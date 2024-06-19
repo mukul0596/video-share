@@ -149,13 +149,19 @@ const ShareForm = ({ fileId }) => {
           variant="outlined"
           disableElevation
           onClick={() => {
-            window.navigator.clipboard.writeText(
-              `${window.location.origin}/file/${fileId}`
-            );
-            MySwal.toast({ title: "Link copied!" });
+            if (window.isSecureContext && navigator.clipboard) {
+              window.navigator.clipboard.writeText(
+                `${window.location.origin}/file/${fileId}`
+              );
+              MySwal.toast({ title: "Link copied!" });
+            } else {
+              window
+                .open(`${window.location.origin}/file/${fileId}`, "_blank")
+                .focus();
+            }
           }}
         >
-          Copy Link
+          {window.isSecureContext && navigator.clipboard ? "Copy" : "Open"} Link
         </Button>
         <Button variant="contained" disableElevation onClick={closeDialog}>
           Done
