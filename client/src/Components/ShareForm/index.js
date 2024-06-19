@@ -149,7 +149,7 @@ const ShareForm = ({ fileId }) => {
           variant="outlined"
           disableElevation
           onClick={() => {
-            navigator.clipboard.writeText(
+            window.navigator.clipboard.writeText(
               `${window.location.origin}/file/${fileId}`
             );
             MySwal.toast({ title: "Link copied!" });

@@ -30,7 +30,7 @@ const UserManagement = () => {
           alignItems="center"
           spacing={1}
         >
-          <Typography variant="h6">User Managemet</Typography>
+          <Typography variant="h6">User Management</Typography>
           <Button
             variant="contained"
             disableElevation

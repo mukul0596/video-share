@@ -61,7 +61,7 @@ const Preview = () => {
     document.body.removeChild(link);
     MySwal.showSuccess({
       title: "Downloaded",
-      text: `${data.originalName} has been downloaded.`,
+      text: `${data.file.originalName} has been downloaded.`,
     });
   };
 
